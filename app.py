@@ -101,9 +101,6 @@ div[data-testid="stSidebar"] { display: none !important; }
 /* ── STREAMLIT OVERRIDES ── */
 .stSelectbox > div > div { background: rgba(15, 23, 42, 0.8) !important; border-color: rgba(56, 189, 248, 0.08) !important; border-radius: 8px !important; color: #e2e8f0 !important; }
 .stSelectbox label { color: #94a3b8 !important; font-weight: 500 !important; font-size: 0.82rem !important; }
-.stButton > button { border-radius: 10px !important; font-weight: 600 !important; border: none !important; transition: all 0.2s ease !important; }
-.stButton > button[kind="primary"] { background: linear-gradient(135deg, #38bdf8, #06d6a0) !important; color: #0b1120 !important; font-size: 0.9rem !important; box-shadow: 0 4px 16px rgba(56, 189, 248, 0.2) !important; }
-.stButton > button[kind="primary"]:hover { box-shadow: 0 6px 24px rgba(56, 189, 248, 0.3) !important; transform: translateY(-1px) !important; }
 .stProgress > div > div > div { background: linear-gradient(90deg, #38bdf8, #06d6a0) !important; border-radius: 4px !important; }
 div[data-testid="stMetricValue"] { color: #38bdf8 !important; }
 div[data-testid="stMetricLabel"] { color: #94a3b8 !important; font-size: 0.76rem !important; }
@@ -131,54 +128,110 @@ div[data-testid="stMetricLabel"] { color: #94a3b8 !important; font-size: 0.76rem
 .res-lbl.ok { color: #06d6a0; }
 .res-lbl.bad { color: #f87171; }
 
-/* ───────────────────────────────────── */
-/* 🔥 FIX STREAMLIT DROPDOWN (MAIN ISSUE) */
-/* ───────────────────────────────────── */
+/* ───────────────────────────────────────────────────── */
+/* 🔥 FIX STREAMLIT DROPDOWN — WORKS ON DEPLOYED VERSION */
+/* ───────────────────────────────────────────────────── */
 
-/* dropdown box */
+/* Dropdown trigger box background */
+div[data-baseweb="select"] > div:first-child,
 div[data-baseweb="select"] > div {
     background-color: rgba(15, 23, 42, 0.9) !important;
-    color: #ffffff !important;
+    border-color: rgba(56, 189, 248, 0.12) !important;
     border-radius: 8px !important;
 }
 
-/* dropdown text */
-div[data-baseweb="select"] span {
-    color: #ffffff !important;
+/* Reset stray black backgrounds on ALL children first */
+div[data-baseweb="select"] * {
+    background-color: transparent !important;
 }
 
-/* dropdown menu (options) */
+/* Re-apply background only on the outer container */
+div[data-baseweb="select"] > div:first-child {
+    background-color: rgba(15, 23, 42, 0.9) !important;
+}
+
+/* Selected value text + placeholder text */
+div[data-baseweb="select"] span,
+div[data-baseweb="select"] [class*="singleValue"],
+div[data-baseweb="select"] [class*="placeholder"],
+div[data-baseweb="select"] input {
+    color: #e2e8f0 !important;
+    background-color: transparent !important;
+}
+
+/* Dropdown popover / menu container */
+div[data-baseweb="popover"],
+div[data-baseweb="popover"] > div,
+ul[data-baseweb="menu"],
 div[role="listbox"] {
     background-color: #0f172a !important;
+    border: 1px solid rgba(56, 189, 248, 0.10) !important;
+    border-radius: 8px !important;
 }
 
-/* dropdown option text */
-div[role="option"] {
-    color: #ffffff !important;
+/* Individual option items */
+div[role="option"],
+li[role="option"] {
+    background-color: #0f172a !important;
+    color: #e2e8f0 !important;
 }
 
-/* hover option */
-div[role="option"]:hover {
-    background-color: #1e293b !important;
-}
-
-/* ───────────────────────────────────── */
-/* 🔥 FIX BUTTON BLACK ISSUE */
-/* ───────────────────────────────────── */
-
-button {
-    background: inherit !important;
-    color: inherit !important;
-}
-
-/* ensure navbar buttons keep your style */
-[data-testid="stMain"] button[kind="primary"] {
-    background: rgba(56, 189, 248, 0.1) !important;
+/* Hovered / selected option */
+div[role="option"]:hover,
+li[role="option"]:hover,
+div[role="option"][aria-selected="true"],
+li[role="option"][aria-selected="true"] {
+    background-color: rgba(56, 189, 248, 0.08) !important;
     color: #38bdf8 !important;
 }
 
-[data-testid="stMain"] button[kind="secondary"] {
+/* ───────────────────────────────────── */
+/* 🔥 FIX BUTTON BLACK ISSUE            */
+/* ───────────────────────────────────── */
+
+/* Safe reset — scoped, not global */
+.stButton > button {
+    background: transparent !important;
     color: #64748b !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    border: 1px solid rgba(100, 116, 139, 0.2) !important;
+    transition: all 0.2s ease !important;
+}
+
+/* Navbar active page button */
+[data-testid="stMain"] button[kind="primary"] {
+    background: rgba(56, 189, 248, 0.1) !important;
+    color: #38bdf8 !important;
+    border: 1px solid rgba(56, 189, 248, 0.2) !important;
+    box-shadow: 0 0 16px rgba(56, 189, 248, 0.06) !important;
+}
+
+/* Navbar inactive page button */
+[data-testid="stMain"] button[kind="secondary"] {
+    background: transparent !important;
+    color: #64748b !important;
+    border: 1px solid transparent !important;
+}
+
+[data-testid="stMain"] button[kind="secondary"]:hover {
+    color: #38bdf8 !important;
+    background: rgba(56, 189, 248, 0.06) !important;
+    border-color: rgba(56, 189, 248, 0.1) !important;
+}
+
+/* Main CTA / Predict button */
+.stButton > button[kind="primary"] {
+    background: linear-gradient(135deg, #38bdf8, #06d6a0) !important;
+    color: #0b1120 !important;
+    font-size: 0.9rem !important;
+    box-shadow: 0 4px 16px rgba(56, 189, 248, 0.2) !important;
+    border: none !important;
+}
+
+.stButton > button[kind="primary"]:hover {
+    box-shadow: 0 6px 24px rgba(56, 189, 248, 0.3) !important;
+    transform: translateY(-1px) !important;
 }
 
 </style>""", unsafe_allow_html=True)
@@ -195,36 +248,9 @@ def toggle_theme():
 
     st.rerun()
 
-st.markdown("""<style>
-/* YOUR FULL CSS HERE EXACTLY SAME */
-/* (NO CHANGE DONE — KEPT AS IT IS) */
-</style>""", unsafe_allow_html=True)
-
 if st.session_state.theme == "light":
     st.markdown("""
     <style>
-    /* FIX DROPDOWN IN LIGHT MODE */
-    div[data-baseweb="select"] > div {
-        background-color: #ffffff !important;
-        color: #000000 !important;
-        border: 1px solid #00000030 !important;
-    }
-    
-    div[data-baseweb="select"] span {
-        color: #000000 !important;
-    }
-    
-    div[role="listbox"] {
-        background-color: #ffffff !important;
-    }
-    
-    div[role="option"] {
-        color: #000000 !important;
-    }
-    
-    div[role="option"]:hover {
-        background-color: #eeeeee !important;
-    }
     /* ── BACKGROUND ── */
     .stApp {
         background: #ffffff !important;
@@ -276,7 +302,55 @@ if st.session_state.theme == "light":
         border: 1px solid #00000030 !important;
     }
 
-    /* ── TABLE FIX (VERY IMPORTANT) ── */
+    /* ── FIX DROPDOWN IN LIGHT MODE ── */
+    div[data-baseweb="select"] > div:first-child,
+    div[data-baseweb="select"] > div {
+        background-color: #ffffff !important;
+        border: 1px solid #00000030 !important;
+        color: #000000 !important;
+        border-radius: 8px !important;
+    }
+
+    div[data-baseweb="select"] * {
+        background-color: transparent !important;
+    }
+
+    div[data-baseweb="select"] > div:first-child {
+        background-color: #ffffff !important;
+    }
+
+    div[data-baseweb="select"] span,
+    div[data-baseweb="select"] [class*="singleValue"],
+    div[data-baseweb="select"] [class*="placeholder"],
+    div[data-baseweb="select"] input {
+        color: #000000 !important;
+        background-color: transparent !important;
+    }
+
+    div[data-baseweb="popover"],
+    div[data-baseweb="popover"] > div,
+    ul[data-baseweb="menu"],
+    div[role="listbox"] {
+        background-color: #ffffff !important;
+        border: 1px solid #00000020 !important;
+        border-radius: 8px !important;
+    }
+
+    div[role="option"],
+    li[role="option"] {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+    }
+
+    div[role="option"]:hover,
+    li[role="option"]:hover,
+    div[role="option"][aria-selected="true"],
+    li[role="option"][aria-selected="true"] {
+        background-color: #eeeeee !important;
+        color: #000000 !important;
+    }
+
+    /* ── TABLE FIX ── */
     .feat-table,
     .about-table {
         border: 1px solid #00000020 !important;
@@ -336,7 +410,7 @@ if st.session_state.theme == "light":
 
     </style>
     """, unsafe_allow_html=True)
-    
+
 n1, n2, n3, n4, n5 = st.columns([2.3, 1, 1, 1, 0.5], gap="small")
 
 with n1:
@@ -362,7 +436,9 @@ with n5:
         toggle_theme()
 
 
-
+# ══════════════════════════════════════════════
+# HOME PAGE
+# ══════════════════════════════════════════════
 if st.session_state.page == "Home":
     st.markdown("""
     <div style="text-align:center; padding:2.2rem 1rem 0.8rem;">
@@ -389,7 +465,7 @@ if st.session_state.page == "Home":
     st.markdown("""<div class="sec-label">Our Team</div><div class="sec-title">Meet the Developers</div><div class="sec-line"></div>""", unsafe_allow_html=True)
     members = [("UR", "Member 1", "Model training and Evaluation","Rathod Umang"), ("HR", "Member 2", "Frontend and Graph","Raval Harsh"), ("MS", "Member 3", "Model preprocessing","Shah Mahek"),]
     mc = st.columns(3, gap="medium")
-    for i, (ini, name, role,fullname) in enumerate(members):
+    for i, (ini, name, role, fullname) in enumerate(members):
         with mc[i]:
             st.markdown(f"""<div class="member"><div class="member-av">{ini}</div><div class="member-name">{name}</div><div class="member-name">{fullname}</div><div class="member-role">{role}</div></div>""", unsafe_allow_html=True)
 
@@ -414,14 +490,14 @@ if st.session_state.page == "Home":
         thtml += f'<tr><td style="font-weight:600;color:#f1f5f9;white-space:nowrap;">{f}</td><td style="white-space:nowrap;">{c}</td><td>{d}</td><td>{tags}</td></tr>'
     thtml += '</tbody></table></div>'
     st.markdown(thtml, unsafe_allow_html=True)
-    
+
     text_color = "#ffffff" if st.session_state.theme == "dark" else "#000000"
-    
+
     st.markdown(f"""
         <div class="badge">Project Goal</div>
         <div class="sec-title">🎯 Objective of the Project</div>
         <div class="sec-line"></div>
-    
+
         <div class="card">
             <ul style="margin:0; padding-left:18px; line-height:1.8; color:{text_color}; font-size:0.85rem;">
                 <li>To predict electricity consumption behavior <b>(Controlled / Uncontrolled)</b></li>
@@ -431,35 +507,39 @@ if st.session_state.page == "Home":
             </ul>
         </div>
     """, unsafe_allow_html=True)
-    
+
     st.markdown("<br>", unsafe_allow_html=True)
 
     st.markdown("""
     <div class="badge">System Flow</div>
     <div class="sec-title">⚙️ Working of the Project</div>
     <div class="sec-line"></div>
-    
+
     <div class="card" style="line-height:1.8; font-size:0.85rem; color:#cbd5e1;">
-    
+
     1️⃣ <b>User provides input</b><br>
     &nbsp;&nbsp;&nbsp;&nbsp;→ Solar and behavioural features are selected through the interface<br><br>
-    
+
     2️⃣ <b>Data preprocessing</b><br>
     &nbsp;&nbsp;&nbsp;&nbsp;→ Input data is converted into numerical format using encoding<br><br>
-    
+
     3️⃣ <b>Model processing</b><br>
     &nbsp;&nbsp;&nbsp;&nbsp;→ Pre-trained <b>Bagging Regressor</b> model processes the input<br><br>
-    
+
     4️⃣ <b>Prediction</b><br>
     &nbsp;&nbsp;&nbsp;&nbsp;→ Model analyzes the data and predicts electricity consumption<br><br>
-    
+
     5️⃣ <b>Final output</b><br>
     &nbsp;&nbsp;&nbsp;&nbsp;→ 🟢 <span style="color:#06d6a0;">Controlled</span> (Efficient usage)<br>
     &nbsp;&nbsp;&nbsp;&nbsp;→ 🔴 <span style="color:#f87171;">Uncontrolled</span> (High wastage)
-    
+
     </div>
     """, unsafe_allow_html=True)
 
+
+# ══════════════════════════════════════════════
+# ABOUT PAGE
+# ══════════════════════════════════════════════
 elif st.session_state.page == "About":
 
     st.markdown("""
@@ -508,79 +588,69 @@ elif st.session_state.page == "About":
             <div class="step-num">6</div>
             <div><h4>Train-Test Split</h4><p>Split data into 80% training and 20% testing using <code>train_test_split(random_state=42)</code>.</p></div>
         </div>
-
-    <div class="step">
-        <div class="step-num">7</div>
-        <div>
-            <h4>Initial Model Testing</h4>
-            <p>Tested multiple models like <code>LinearRegression()</code>, <code>Ridge()</code>, <code>Lasso()</code>, and <code>XGBRegressor()</code> <code>Bagging Regressor()</code> to compare performance.</p>
+        <div class="step">
+            <div class="step-num">7</div>
+            <div>
+                <h4>Initial Model Testing</h4>
+                <p>Tested multiple models like <code>LinearRegression()</code>, <code>Ridge()</code>, <code>Lasso()</code>, and <code>XGBRegressor()</code> <code>Bagging Regressor()</code> to compare performance.</p>
+            </div>
         </div>
-    </div>
-
-    <div class="step">
-        <div class="step-num">8</div>
-        <div>
-            <h4>Model Comparison</h4>
-            <p>Compared models using <code>r2_score(y_test, y_pred)</code> to identify best performing model.</p>
+        <div class="step">
+            <div class="step-num">8</div>
+            <div>
+                <h4>Model Comparison</h4>
+                <p>Compared models using <code>r2_score(y_test, y_pred)</code> to identify best performing model.</p>
+            </div>
         </div>
-    </div>
-
-    <div class="step">
-        <div class="step-num">9</div>
-        <div>
-            <h4>Selected Bagging Regressor</h4>
-            <p>Chose <code>BaggingRegressor()</code> as final model because it provided highest accuracy and reduced overfitting.</p>
+        <div class="step">
+            <div class="step-num">9</div>
+            <div>
+                <h4>Selected Bagging Regressor</h4>
+                <p>Chose <code>BaggingRegressor()</code> as final model because it provided highest accuracy and reduced overfitting.</p>
+            </div>
         </div>
-    </div>
-
-    <div class="step">
-        <div class="step-num">10</div>
-        <div>
-            <h4>Model Training</h4>
-            <p>Trained model using <code>BaggingRegressor(estimator=DecisionTreeRegressor(), n_estimators=10)</code>.</p>
+        <div class="step">
+            <div class="step-num">10</div>
+            <div>
+                <h4>Model Training</h4>
+                <p>Trained model using <code>BaggingRegressor(estimator=DecisionTreeRegressor(), n_estimators=10)</code>.</p>
+            </div>
         </div>
-    </div>
-
-    <div class="step">
-        <div class="step-num">11</div>
-        <div>
-            <h4>Model Evaluation</h4>
-            <p>Evaluated performance using <code>MSE</code>, <code>MAE</code>, <code>RMSE</code>, and <code>R² Score</code>.</p>
+        <div class="step">
+            <div class="step-num">11</div>
+            <div>
+                <h4>Model Evaluation</h4>
+                <p>Evaluated performance using <code>MSE</code>, <code>MAE</code>, <code>RMSE</code>, and <code>R² Score</code>.</p>
+            </div>
         </div>
-    </div>
-
-    <div class="step">
-        <div class="step-num">12</div>
-        <div>
-            <h4>Hyperparameter Tuning</h4>
-            <p>Used <code>GridSearchCV()</code> and <code>RandomizedSearchCV()</code> to optimize parameters like <code>n_estimators</code> and <code>max_samples</code>.</p>
+        <div class="step">
+            <div class="step-num">12</div>
+            <div>
+                <h4>Hyperparameter Tuning</h4>
+                <p>Used <code>GridSearchCV()</code> and <code>RandomizedSearchCV()</code> to optimize parameters like <code>n_estimators</code> and <code>max_samples</code>.</p>
+            </div>
         </div>
-    </div>
-
-    <div class="step">
-        <div class="step-num">13</div>
-        <div>
-            <h4>Feature Importance</h4>
-            <p>Calculated importance using <code>model.estimators_[0].feature_importances_</code> to identify key features.</p>
+        <div class="step">
+            <div class="step-num">13</div>
+            <div>
+                <h4>Feature Importance</h4>
+                <p>Calculated importance using <code>model.estimators_[0].feature_importances_</code> to identify key features.</p>
+            </div>
         </div>
-    </div>
-
-    <div class="step">
-        <div class="step-num">14</div>
-        <div>
-            <h4>Graph Visualization</h4>
-            <p>Plotted graphs like <code>plt.bar()</code>, <code>sns.heatmap()</code>, and <code>plt.hist()</code> for analysis.</p>
+        <div class="step">
+            <div class="step-num">14</div>
+            <div>
+                <h4>Graph Visualization</h4>
+                <p>Plotted graphs like <code>plt.bar()</code>, <code>sns.heatmap()</code>, and <code>plt.hist()</code> for analysis.</p>
+            </div>
         </div>
-    </div>
-
-    <div class="step">
-        <div class="step-num">15</div>
-        <div>
-            <h4>Model Saving</h4>
-            <p>Saved final model using <code>joblib.dump(model, "Model/bagging_Regressor_model.joblib")</code>.</p>
+        <div class="step">
+            <div class="step-num">15</div>
+            <div>
+                <h4>Model Saving</h4>
+                <p>Saved final model using <code>joblib.dump(model, "Model/bagging_Regressor_model.joblib")</code>.</p>
+            </div>
         </div>
-    </div>
-        
     </div>
     """, unsafe_allow_html=True)
 
@@ -605,7 +675,7 @@ elif st.session_state.page == "About":
     ]
 
     table_html = '<div style="overflow-x:auto;"><table class="about-table"><thead><tr><th>Model Family</th><th>Experiment</th><th>Parameters Tuned</th><th style="text-align:right;">R² Score</th></tr></thead><tbody>'
-    
+
     for i, (name, exp, params, score) in enumerate(models_data):
         row_class = "highlight-row" if name == "Bagging (DT Base)" and exp == "GridSearchCV" else ""
         badge = '<span class="best-tag">Final Model</span>' if row_class else ""
@@ -616,14 +686,10 @@ elif st.session_state.page == "About":
             <td style="color:#94a3b8; font-size:0.78rem;">{params}</td>
             <td style="text-align:right; font-weight:700; color:#38bdf8;">{score}</td>
         </tr>'''
-        
+
     table_html += '</tbody></table></div>'
     st.markdown(table_html, unsafe_allow_html=True)
-    
-    # st.markdown('<p style="font-size:0.72rem; color:#475569; margin-top:0.5rem;">⚠️ Replace the <code>0.XX</code> placeholders above with the exact R² scores printed in your Jupyter Notebook outputs.</p>', unsafe_allow_html=True)
 
-
-   
     st.markdown("""
     <div style="margin-top:1.8rem;">
         <div class="sec-label">Step 4</div>
@@ -683,6 +749,9 @@ elif st.session_state.page == "About":
     st.markdown('<div class="foot"><p>Built with <span class="h">❤</span> using Streamlit & Scikit-Learn &nbsp;|&nbsp; PowerAI © 2025</p></div>', unsafe_allow_html=True)
 
 
+# ══════════════════════════════════════════════
+# PREDICTION PAGE
+# ══════════════════════════════════════════════
 elif st.session_state.page == "Prediction":
 
     st.markdown("""
@@ -793,7 +862,4 @@ elif st.session_state.page == "Prediction":
 
         retrain_model()
 
-        
         st.markdown('<div style="text-align:center;margin-top:1rem;"><p style="color:#475569;font-size:0.76rem;">✅ Prediction saved & model retrained with new data.</p></div>', unsafe_allow_html=True)
-
-    # st.markdown('<div class="foot" style="margin-top:2.5rem;"><p>Built with <span class="h">❤</span> using Streamlit & Scikit-Learn &nbsp;|&nbsp; PowerAI © 2025</p></div>', unsafe_allow_html=True)
