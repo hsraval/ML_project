@@ -130,6 +130,57 @@ div[data-testid="stMetricLabel"] { color: #94a3b8 !important; font-size: 0.76rem
 .res-lbl { font-size: 1.35rem; font-weight: 800; margin-bottom: 3px; }
 .res-lbl.ok { color: #06d6a0; }
 .res-lbl.bad { color: #f87171; }
+
+/* ───────────────────────────────────── */
+/* 🔥 FIX STREAMLIT DROPDOWN (MAIN ISSUE) */
+/* ───────────────────────────────────── */
+
+/* dropdown box */
+div[data-baseweb="select"] > div {
+    background-color: rgba(15, 23, 42, 0.9) !important;
+    color: #ffffff !important;
+    border-radius: 8px !important;
+}
+
+/* dropdown text */
+div[data-baseweb="select"] span {
+    color: #ffffff !important;
+}
+
+/* dropdown menu (options) */
+div[role="listbox"] {
+    background-color: #0f172a !important;
+}
+
+/* dropdown option text */
+div[role="option"] {
+    color: #ffffff !important;
+}
+
+/* hover option */
+div[role="option"]:hover {
+    background-color: #1e293b !important;
+}
+
+/* ───────────────────────────────────── */
+/* 🔥 FIX BUTTON BLACK ISSUE */
+/* ───────────────────────────────────── */
+
+button {
+    background: inherit !important;
+    color: inherit !important;
+}
+
+/* ensure navbar buttons keep your style */
+[data-testid="stMain"] button[kind="primary"] {
+    background: rgba(56, 189, 248, 0.1) !important;
+    color: #38bdf8 !important;
+}
+
+[data-testid="stMain"] button[kind="secondary"] {
+    color: #64748b !important;
+}
+
 </style>""", unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════
@@ -152,7 +203,28 @@ st.markdown("""<style>
 if st.session_state.theme == "light":
     st.markdown("""
     <style>
-
+    /* FIX DROPDOWN IN LIGHT MODE */
+    div[data-baseweb="select"] > div {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        border: 1px solid #00000030 !important;
+    }
+    
+    div[data-baseweb="select"] span {
+        color: #000000 !important;
+    }
+    
+    div[role="listbox"] {
+        background-color: #ffffff !important;
+    }
+    
+    div[role="option"] {
+        color: #000000 !important;
+    }
+    
+    div[role="option"]:hover {
+        background-color: #eeeeee !important;
+    }
     /* ── BACKGROUND ── */
     .stApp {
         background: #ffffff !important;
