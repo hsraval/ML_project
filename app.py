@@ -268,7 +268,7 @@ if st.session_state.theme == "light":
 n1, n2, n3, n4, n5 = st.columns([2.3, 1, 1, 1, 0.5], gap="small")
 
 with n1:
-    st.markdown("""<div class="brand-row"><span class="brand-icon">⚡</span><span class="brand-name">PowerAI</span></div>""", unsafe_allow_html=True)
+    st.markdown("""<div class="brand-row"><span class="brand-icon">⚡</span><span class="brand-name">Electricity Consumption</span></div>""", unsafe_allow_html=True)
 
 with n2:
     t = "primary" if st.session_state.page == "Home" else "secondary"
